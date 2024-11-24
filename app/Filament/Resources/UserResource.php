@@ -11,8 +11,15 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Columns\TextInputColumn;
+use Filament\Forms\Components\TextInput;
+
+
 
 class UserResource extends Resource
 {
@@ -25,19 +32,34 @@ class UserResource extends Resource
         return $form
             ->schema([
                 //Creame el formulario para el usuario
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                 ->required()
                 ->label('Nombre')
                 ->maxLength(255),
 
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                 ->required()
                 ->label('Correo Electrónico'),
-                Forms\Components\TextInput::make('password')
+                TextInput::make('password')
                 ->password()
                 ->required()
                 ->visibleOn('create'),
 
+                FileUpload::make('foto')
+                ->label('Foto')
+                ->image()
+                ->disk('public') // Asegúrate de que esto apunta al disco correcto
+                ->directory('fotos')
+                ->required(),
+
+
+                Forms\Components\TextInput::make('usuario')
+                ->label('Usuario')
+                ->nullable(),
+
+                Forms\Components\Toggle::make('condicion')
+                ->label('Condición')
+                ->default(true),
 
             ]);
     }
@@ -47,15 +69,29 @@ class UserResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                 ->sortable()
                 ->label('ID'),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                 ->sortable()
                 ->label('Nombre'),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                 ->sortable()
                 ->label('Correo Electrónico'),
+                TextColumn::make('usuario')->label('Usuario')
+                ->label('Usuario')
+                ->sortable(),
+                ImageColumn::make('foto')
+                ->label('Foto')
+
+
+                ->width(80)
+                ->height(80)
+                ->circular(),
+
+                TextColumn::make('usuario'),
+                IconColumn::make('condicion')
+                ->boolean(),
             ])
             ->filters([
                 //
