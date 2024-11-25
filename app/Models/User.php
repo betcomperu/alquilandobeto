@@ -6,6 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -48,4 +51,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function inmuebles()
+    {
+        return $this->hasMany(Inmueble::class, 'iduser');
+    }
+
 }
