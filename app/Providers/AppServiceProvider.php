@@ -17,8 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        Gate::policy(Role::class, RolePolicy::class);
-Gate::policy(Permission::class, PermissionPolicy::class);
+
     }
 
     /**
@@ -27,5 +26,7 @@ Gate::policy(Permission::class, PermissionPolicy::class);
     public function boot(): void
     {
         //
+        Gate::policy(Role::class, RolePolicy::class);
+        Gate::policy(Permission::class, PermissionPolicy::class);
     }
 }
