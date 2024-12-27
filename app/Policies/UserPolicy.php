@@ -13,7 +13,11 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->checkPermissionTo('view-any User');
+       // return $user->checkPermissionTo('view-any User');
+      // return $user->hasRole('Administrador');
+      return $user->hasRole('Administrador') || $user->hasRole('Inquilino');
+
+
     }
 
     /**
@@ -21,8 +25,13 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->checkPermissionTo('view User');
+       // return $user->checkPermissionTo('view User');
+      // return $user->id === $model->id || $user->hasRole('Administrador');
+     // return $user->hasRole('Administrador') || $user->id === $model->id;
+     return $user->hasRole('Administrador') || $user->hasRole('Inquilino') || $user->id === $model->id;
     }
+
+
 
     /**
      * Determine whether the user can create models.
